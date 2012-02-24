@@ -11,25 +11,26 @@ Requirements
 -----------------------------------------------
 SilverStripe 2.3.0 or greater.
 
-Documentation
+Notes
 -----------------------------------------------
-1. create authentication key:http://code.google.com/apis/maps/signup.html
-2. set configs
-3. add decorator to sitetree + controller (see config)
-4. create custom js file (if needed)
-5. to include, add $GoogleMapBasic to your template...
+This re-write makes use of the V3 engine for Google Maps API
+
+Now you can add your account API Key in your SiteConfig. If you do not add
+a key, the map will still work, but with a limited number of requests. 
+
 
 Installation Instructions
 -----------------------------------------------
-1. Find out how to add modules to SS and add module as per usual.
+1. Download and add module to the folder "googlemapbasic" in your SilverStripe root directory.
 
-2. copy configurations from this module's _config.php file
-into mysite/_config.php file and edit settings as required.
-NB. the idea is not to edit the module at all, but instead customise
-it from your mysite folder, so that you can upgrade the module without redoing the settings.
+2. Visit http://www.your-site-url.com/dev/build/?flush=all in your browser.
 
-3. add <% include GoogleMapBasic %> to your template
+3. Add <% include GoogleMapBasic %> to your template.
 
-4. go into CMS and add a map to a page type that can have maps (as set in config)
+4. Log into the CMS, then visit Pages.
 
-5. review on screen and code CSS for the right look and feel.
+5. Select a page to add your Map to, and cick the "behaviour" tab.
+
+6. Enable maps using the new option, then save. Now open the "Main" tab and use the maps sub tab.
+
+7. review on screen and code CSS for the right look and feel.
