@@ -6,6 +6,7 @@ Pre 0.1 proof of concept
 Developer
 -----------------------------------------------
 Nicolaas Francken [at] sunnysideup.co.nz
+Mo: info [at] i-lateral.com
 
 Requirements
 -----------------------------------------------
