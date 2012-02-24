@@ -3,55 +3,59 @@ THANK YOU Marcel Nogueira d' Eurydice FOR THE INSPIRATION!
 TO DECLARE USING Requirements::customScript IN PHP
 */
 
-jQuery(document).ready(
-	function () {
-		GoogleMapBasic.init();
-	}
-);
-jQuery(window).unload(function() {GUnload();});
+jQuery(document).ready(function () { GoogleMapBasic.init() });
 
 var GoogleMapBasic = {
+    lat: "$lat",
+    lng: "$lng",
+    address: "$address",
+    content: '$content',
+    zoom: $zoom,
+    map_id: "GoogleMapBasic",
+    
+    init: function() {
+        // Test to see if address variable has been set, if not, fall back to lat/long
+        if(this.address) {
+            this.geocode_address(this.address);
+        } else {
+            this.generate_map(new google.maps.LatLng(this.lat,this.lng));
+        }
+    },
+    
+    geocode_address: function(address) {
+        // Create a Google Geocoder instance...
+        var geocoder = new google.maps.Geocoder();
 
-	zoomLevel: 14,
-		SET_ZoomLevel: function(v) {this.zoomLevel = v;},
+        // And pass it our address
+        geocoder.geocode({'address': address}, function(results, status) {
+            if(status == google.maps.GeocoderStatus.OK) {
+                // Now, generate a map using the new location
+                GoogleMapBasic.generate_map(results[0].geometry.location);
+            } else {
+                alert("Unable to locate address for the following reason: " + status);
+            }
+        });
+    },
 
-	infoWindow: "I live here",
-		SET_InfoWindow: function(v) {this.infoWindow = v;},
+    generate_map: function(latlng) {
+        var myOptions = {
+            center: latlng,
+            zoom: this.zoom,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
 
-	address: "The Beehive, Wellington, New Zealand",
-		SET_Address: function(v) {this.address = v;},
+        var map = new google.maps.Map(document.getElementById(this.map_id), myOptions);
 
-	map: null,
+        var marker= new google.maps.Marker({
+            position: latlng,
+            clickable: true, 
+            map: map
+        });
 
-	init: function() {
-		if (GBrowserIsCompatible()) {
-			GoogleMapBasic.map = new GMap2(document.getElementById("GoogleMapBasic"));
-			GoogleMapBasic.map.setUIToDefault();
-			//get address
-			geocoder = new GClientGeocoder();
-			geocoder.getLatLng(
-				GoogleMapBasic.address,
-				function(point){
-					if(!point){
-						alert("address "+GoogleMapBasic.address+" not found!!!");
-					}
-					else {
-						GoogleMapBasic.map.setCenter(point, GoogleMapBasic.zoomLevel);
-						GoogleMapBasic.createMarker(point, GoogleMapBasic.infoWindow);
-					}
-				}
-			);
-		}
-	},
-
-	createMarker: function (point,html) {
-		var marker = new GMarker(point);
-		GEvent.addListener(marker, "click", function() {
-			marker.openInfoWindowHtml(html);
-		});
-		GoogleMapBasic.map.addOverlay(marker);
-		marker.openInfoWindowHtml(html);
-		return marker;
-	}
-}
-
+        if(this.content) {
+            var infowindow = new google.maps.InfoWindow({
+                content: this.content
+            }).open(map,marker);
+        }
+    }
+};
