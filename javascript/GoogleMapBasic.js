@@ -6,11 +6,11 @@ TO DECLARE USING Requirements::customScript IN PHP
 jQuery(document).ready(function () { GoogleMapBasic.init() });
 
 var GoogleMapBasic = {
-    lat: "$lat",
-    lng: "$lng",
-    address: "$address",
-    content: '$content',
-    zoom: $zoom,
+    lat: "$Lat",
+    lng: "$Lng",
+    address: "$Address",
+    content: '$Content',
+    zoom: $Zoom,
     map_id: "GoogleMapBasic",
     
     init: function() {

@@ -88,12 +88,24 @@ class GoogleMapBasic_Controller extends Extension {
     public function GoogleMapBasic() {
         $siteconfig = SiteConfig::current_site_config();
         
+        // Set default template variables
+        $template_vars = array(
+            'StaticMap' => False
+        );
+        
         if($this->owner->ShowMap && ($this->owner->Address || $this->owner->LatLng)) {
-            if($this->owner->StaticMap)
-                    return true;
+            // If we are using an image
+            if($this->owner->StaticMap) {
+                $template_vars = array(
+                    'StaticMap' => True,
+                    'Link'      => $this->GoogleMapBasicExternalLink(),
+                    'Address'   => $this->owner->Address,
+                    'Content' => $this->owner->InfoWindowContent,
+                );
+            }
+            
+            // If we are using a dynamic map
             else {
-                $fileLocation = 'googlemapbasic/javascript/GoogleMapBasic.js';
-                
                 $key = ($siteconfig->APIKey) ? "&key={$siteconfig->APIKey}" : '';
                 
                 if($this->owner->LatLng) {
@@ -106,23 +118,22 @@ class GoogleMapBasic_Controller extends Extension {
                 }
                 
                 $vars = array(
-                    'lat'     => $lat,
-                    'lng'    => $lng,
-                    'address' => $this->owner->Address,
-                    'content' => $this->owner->InfoWindowContent,
-                    'zoom'    => (int)$this->owner->ZoomLevel
+                    'Lat'     => $lat,
+                    'Lng'    => $lng,
+                    'Address' => $this->owner->Address,
+                    'Content' => $this->owner->InfoWindowContent,
+                    'Zoom'    => (int)$this->owner->ZoomLevel
                 );
                 
                 Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
                 Requirements::javascript("http://maps.googleapis.com/maps/api/js?sensor=false" . $key);
-                Requirements::javascriptTemplate($fileLocation, $vars);
+                Requirements::javascriptTemplate('googlemapbasic/javascript/GoogleMapBasic.js', $vars);
                 Requirements::css('googlemapbasic/css/GoogleMapBasic.css');
-                
-                return _t("GoolgeMapBasic.MAPLOADING", "map loading...");
             }
-        }
         
-        return false;
+            return $this->owner->renderWith('GoogleMapBasic',$template_vars);
+        } else
+            return false;
     }
 
     public function GoogleMapBasicStaticMapSource($width = 512, $height = 512) {

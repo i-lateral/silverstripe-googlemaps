@@ -1,12 +1,10 @@
-<% if GoogleMapBasic %>
-    <div id="GoogleMapBasic">
+<div id="GoogleMapBasic">
     <% if StaticMap %>
-        <a href="$GoogleMapBasicExternalLink">
-            <img src="$GoogleMapBasicStaticMapSource(300,400)" alt="$Address.ATT" width="300" height="400" />
+        <a href="$Link">
+            <img src="$GoogleMapBasicStaticMapSource(600,450)" alt="$Address.ATT" width="600" height="450" />
         </a>
-        <div class="staticInfoWindowContent">$InfoWindowContent</div>
-        <% else %>
-            $GoogleMapBasic
-        <% end_if %>
-    </div>
-<% end_if %>
+        <div class="staticInfoWindowContent">$Content</div>
+    <% else %>
+        <p>Map Loading...</p>
+    <% end_if %>
+</div>

@@ -24,9 +24,9 @@ Installation Instructions
 -----------------------------------------------
 1. Download and add module to the folder "googlemapbasic" in your SilverStripe root directory.
 
-2. Visit http://www.your-site-url.com/dev/build/?flush=all in your browser.
+2. Add $GoogleMapBasic to your page template.
 
-3. Add <% include GoogleMapBasic %> to your template.
+3. Visit http://www.your-site-url.com/dev/build/?flush=all in your browser.
 
 4. Log into the CMS, then visit Pages.
 
