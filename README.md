@@ -10,7 +10,7 @@ Mo: info [at] i-lateral.com
 
 Requirements
 -----------------------------------------------
-SilverStripe 2.3.0 or greater.
+SilverStripe 3.0 or greater.
 
 Notes
 -----------------------------------------------

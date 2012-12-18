@@ -8,9 +8,9 @@
 **/
 
 // Add extensions
-DataObject::add_extension('SiteConfig', 'GoogleMapSiteConfig');
-DataObject::add_extension('SiteTree', 'GoogleMapBasic');
-DataObject::add_extension('ContentController', 'GoogleMapBasic_Controller');
+Object::add_extension('SiteConfig', 'GoogleMapSiteConfig');
+Object::add_extension('SiteTree', 'GoogleMapBasic');
+Object::add_extension('ContentController', 'GoogleMapBasic_Controller');
 
 
 
