@@ -1,0 +1,24 @@
+{
+  "name": "i-lateral/googlemapbasic",
+  "description": "A ",
+	"type": "silverstripe-module",
+	"homepage": "http://github.com/i-lateral/silverstripe-googlemapbasic",
+	"keywords": ["silverstripe", "googlemapbasic"],
+	"license": "BSD-3-Clause",
+	"authors": [
+		{
+			"name": "Morven Lewis-Everley",
+			"email": "morven@i-lateral.com"
+		}
+	],
+	"support": {
+		"issues": "http://github.com/i-lateral/silverstripe-googlemapbasic/issues"
+	},
+	"require": {
+		"silverstripe/framework": ">=3.1",
+		"silverstripe/cms": ">=3.1"
+	},
+	"extra": {
+		"installer-name": "googlemapbasic"
+	}
+}
