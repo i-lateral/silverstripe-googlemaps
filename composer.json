@@ -1,9 +1,9 @@
 {
-  "name": "i-lateral/googlemapbasic",
-  "description": "A ",
+  "name": "i-lateral/googlemaps",
+  "description": "A module to allow embeding of google maps inside page objects",
 	"type": "silverstripe-module",
-	"homepage": "http://github.com/i-lateral/silverstripe-googlemapbasic",
-	"keywords": ["silverstripe", "googlemapbasic"],
+	"homepage": "http://github.com/i-lateral/silverstripe-googlemaps",
+	"keywords": ["silverstripe", "googlemaps"],
 	"license": "BSD-3-Clause",
 	"authors": [
 		{
@@ -12,13 +12,14 @@
 		}
 	],
 	"support": {
-		"issues": "http://github.com/i-lateral/silverstripe-googlemapbasic/issues"
+		"issues": "http://github.com/i-lateral/silverstripe-googlemaps/issues"
 	},
 	"require": {
 		"silverstripe/framework": ">=3.0",
-		"silverstripe/cms": ">=3.0"
+		"silverstripe/cms": ">=3.0",
+		"undefinedoffset/sortablegridfield": "dev-master"
 	},
 	"extra": {
-		"installer-name": "googlemapbasic"
+		"installer-name": "googlemaps"
 	}
 }
