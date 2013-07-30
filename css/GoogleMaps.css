@@ -1,0 +1,15 @@
+.google-map-dynamic {
+    margin-bottom: 1em;
+}
+
+.google-maps-clear,
+.google-maps .google-map-static {
+    clear: both;
+}
+.google-maps .google-map-static .google-map-content {
+    float: left;
+    width: 33%;
+}
+.google-maps .google-map-static .google-map-map {
+    float: right;
+}

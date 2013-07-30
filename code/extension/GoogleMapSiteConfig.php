@@ -10,7 +10,7 @@ class GoogleMapSiteConfig extends DataExtension {
         'APIKey'   => 'Varchar(100)'
     );
 
-    function updateCMSFields(FieldList $fields) {
-        $fields->addFieldToTab('Root.Maps', TextField::create('APIKey'));
+    public function updateCMSFields(FieldList $fields) {
+        $fields->addFieldToTab('Root.Main', TextField::create('APIKey', 'Google Maps API Key'));
     }
 }
