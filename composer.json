@@ -15,8 +15,8 @@
 		"issues": "http://github.com/i-lateral/silverstripe-googlemaps/issues"
 	},
 	"require": {
-		"silverstripe/framework": ">=3.0",
-		"silverstripe/cms": ">=3.0",
+		"silverstripe/framework": ">=3.1",
+		"silverstripe/cms": ">=3.1",
 		"undefinedoffset/sortablegridfield": "dev-master"
 	},
 	"extra": {
