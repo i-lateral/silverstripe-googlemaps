@@ -55,6 +55,7 @@ class GoogleMap extends DataObject {
         $fields->removeByname('Longitude');
         $fields->removeByname('ZoomLevel');
         $fields->removeByname('Content');
+		$fields->removeByname('Sort');
         
         if($this->ID) {
             $fields->addFieldToTab(
