@@ -67,7 +67,8 @@ class GoogleMapController extends Extension {
 					$markerValues .= "{";						
 						$markerValues .= 'address:"'.$address.'",';
 						$markerValues .= "latLng:[";
-							$markerValues .= ($map->Latitude) ? $map->Latitude : 'false'.',';
+							$markerValues .= ($map->Latitude) ? $map->Latitude : 'false';
+							$markerValues .= ",";
 							$markerValues .= ($map->Longitude) ? $map->Longitude : 'false';
 			 			$markerValues .= "],";
 						$markerValues .= "data: '".$map->Content."',";
