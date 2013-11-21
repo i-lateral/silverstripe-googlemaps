@@ -57,7 +57,7 @@ class GoogleMapController extends Extension {
 					$map = $this->owner->Maps();
 					$map = $map[$i];
 	            	if ($i == 0) {
-	        			$centerAdress = ($map->Address) ? str_replace('/n', ',', $map->Address) . ',' . $map->PostCode : 'false';
+	        			$centerAdress = ($map->Address) ? "address: '".str_replace('/n', ',', $map->Address) . ',' . $map->PostCode ."'," : '';
 						$zoom = $map->ZoomLevel;
 						$mapID = "google-map-dynamic-{$map->ID}";
 						$centerLatitude = ($map->Latitude) ? $map->Latitude : 'false';
@@ -65,29 +65,40 @@ class GoogleMapController extends Extension {
 	            	}
 					$address = ($map->Address) ? str_replace('/n', ',', $map->Address) . ',' . $map->PostCode : 'false';
 					$markerValues .= "{";						
-						$markerValues .= 'address:"'.$address.'",';
+						if ($address != 'false') {
+							$markerValues .= 'address:"'.$address.'",';
+						} else {
 						$markerValues .= "latLng:[";
 							$markerValues .= ($map->Latitude) ? $map->Latitude : 'false';
 							$markerValues .= ",";
 							$markerValues .= ($map->Longitude) ? $map->Longitude : 'false';
 			 			$markerValues .= "],";
+						}
 						$markerValues .= "data: '".$map->Content."',";
 						$markerValues .= "options:{icon: 'http://maps.google.com/mapfiles/marker_yellow.png'}";
 	                $markerValues .= "}";
 					if ($i != count($this->owner->Maps())-1)
 						$markerValues .= ",";
 	            }
+
+				$map = "";
 				
-				Requirements::customScript('
-					jQuery(document).ready(function() {
-					    jQuery(".'.$mapID.'").gmap3({
-					        map:{
-					            address: "'.$centerAdress.'",
+				if ($autofit == "") {
+					$map = '
+							map:{
+					            '.$centerAdress.'
 					            options:{
 					              center:['.$centerLatitude.','.$centerLongitude.'],
 					              zoom: '.$zoom.'
 					            }
 					        },
+					';
+				}
+				
+				Requirements::customScript('
+					jQuery(document).ready(function() {
+					    jQuery(".'.$mapID.'").gmap3({
+					    	'.$map.'
 					        marker:{
 					        	values:[
 					            '.$markerValues.'
