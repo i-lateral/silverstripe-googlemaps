@@ -8,7 +8,7 @@
 class GoogleMap extends DataObject {
     private $api_key;
 
-    public static $db = array(
+    private static $db = array(
         'Title'             => 'Varchar',
         'Content'           => 'HTMLText',
         'Address'           => 'Text',
@@ -19,7 +19,7 @@ class GoogleMap extends DataObject {
         'Sort'              => 'Int'
     );
     
-    public static $has_one = array(
+    private static $has_one = array(
         'Parent' => 'SiteTree'
     );
     
@@ -40,7 +40,7 @@ class GoogleMap extends DataObject {
     
     public static $default_sort = 'Sort';
     
-    public static $defaults = array(
+    private static $defaults = array(
         'ZoomLevel' => 10
     );
     
