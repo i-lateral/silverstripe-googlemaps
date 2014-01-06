@@ -8,7 +8,7 @@
 class GoogleMap extends DataObject {
     private $api_key;
 
-    public static $db = array(
+    private static $db = array(
         'Title'             => 'Varchar',
         'Content'           => 'HTMLText',
         'Address'           => 'Text',
@@ -19,18 +19,18 @@ class GoogleMap extends DataObject {
         'Sort'              => 'Int'
     );
     
-    public static $has_one = array(
+    private static $has_one = array(
         'Parent' => 'SiteTree'
     );
     
-    public static $casting = array(
+    private static $casting = array(
         'FullAddress'   => 'HTMLText',
         'Location'      => 'Text',
         'Link'          => 'Text',
         'ImgURL'        => 'Text'
     );
     
-    public static $summary_fields = array(
+    private static $summary_fields = array(
         'Title',
         'Address',
         'PostCode',
@@ -38,9 +38,9 @@ class GoogleMap extends DataObject {
         'Longitude'
     );
     
-    public static $default_sort = 'Sort';
+    private static $default_sort = 'Sort';
     
-    public static $defaults = array(
+    private static $defaults = array(
         'ZoomLevel' => 10
     );
     
