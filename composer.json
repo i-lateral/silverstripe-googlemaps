@@ -17,7 +17,7 @@
 	"require": {
 		"silverstripe/framework": ">=3.0",
 		"silverstripe/cms": ">=3.0",
-		"undefinedoffset/sortablegridfield": "dev-master"
+		"maldicore/sortablegridfield": "dev-master"
 	},
 	"extra": {
 		"installer-name": "googlemaps"
