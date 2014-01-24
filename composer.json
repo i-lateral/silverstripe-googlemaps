@@ -1,5 +1,5 @@
 {
-  "name": "i-lateral/silverstripe-googlemaps",
+  "name": "maldicore/silverstripe-googlemaps",
   "description": "A module to allow embeding of google maps inside page objects",
 	"type": "silverstripe-module",
 	"homepage": "http://github.com/i-lateral/silverstripe-googlemaps",
