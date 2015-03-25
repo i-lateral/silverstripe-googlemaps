@@ -48,9 +48,23 @@ class GoogleMap extends DataObject {
         $fields->removeByname('Zoom');
         $fields->removeByname('Sort');
         
-        $fields->addFieldsToTab(
+        $fields->addFieldToTab(
             "Root.Main",
+            HeaderField::create(
+                "InfoHeader",
+                _t("GoogleMaps.InfoHeader", "Information about this location")
+            ),
+            "Title"
+        );
+        
+        
+        $fields->addFieldsToTab(
+            "Root.Map",
             array(
+                HeaderField::create(
+                    "MapHeader",
+                    _t("GoogleMaps.MapHeader", "Generate your map")
+                ),
                 GoogleMapField::create($this,"Find the location"),
                 ReadOnlyField::create("Latitude"),
                 ReadOnlyField::create("Longitude"),
