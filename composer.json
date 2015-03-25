@@ -8,16 +8,17 @@
 	"authors": [
 		{
 			"name": "Morven Lewis-Everley",
-			"email": "morven@i-lateral.com"
+			"email": "morven@ilateral.co.uk"
 		}
 	],
 	"support": {
 		"issues": "http://github.com/i-lateral/silverstripe-googlemaps/issues"
 	},
 	"require": {
-		"silverstripe/framework": ">=3.0",
-		"silverstripe/cms": ">=3.0",
-		"undefinedoffset/sortablegridfield": "dev-master"
+		"silverstripe/framework": ">=3.1",
+		"silverstripe/cms": ">=3.1",
+        "betterbrief/silverstripe-googlemapfield": "*",
+        "silverstripe-australia/gridfieldextensions": "1.1.0"
 	},
 	"extra": {
 		"installer-name": "googlemaps"

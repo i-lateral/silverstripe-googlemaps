@@ -26,21 +26,17 @@ class GoogleMapSiteTree extends DataExtension {
                 'Maps',
                 '',
                 $this->owner->Maps(),
-                GridFieldConfig_RecordEditor::create()
+                $config = GridFieldConfig_RecordEditor::create()
             );
             
-            // Tidy up category config and remove default add button
-		    $field_config = $maps_field->getConfig();
-		    $field_config
-                ->removeComponentsByType('GridFieldAddNewButton')
-                ->addComponent(new GridFieldSortableRows('Sort'));
+		    $config->addComponent(new GridFieldOrderableRows('Sort'));
 
             // Add creation button if member has create permissions
             if($this->owner->canCreate()) {
+                $config->removeComponentsByType('GridFieldAddNewButton');
 		        $add_button = new GridFieldAddNewButton('toolbar-header-left');
-		        $add_button->setButtonName('Add Google Map');
-		        
-                $field_config->addComponent($add_button);
+		        $add_button->setButtonName(_t("GoogleMaps.AddGoogleMap", "Add Google Map"));
+                $config->addComponent($add_button);
             }
             
             $fields->addFieldToTab('Root.Maps', $maps_field);
