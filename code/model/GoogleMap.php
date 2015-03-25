@@ -10,12 +10,11 @@ class GoogleMap extends DataObject {
 
     private static $db = array(
         'Title'             => 'Varchar',
-        'Content'           => 'HTMLText',
         'Address'           => 'Text',
         'PostCode'          => 'Varchar',
         'Latitude'          => 'Varchar',
         'Longitude'         => 'Varchar',
-        'ZoomLevel'         => 'Int',
+        'Zoom'              => 'Int',
         'Sort'              => 'Int'
     );
     
@@ -40,46 +39,24 @@ class GoogleMap extends DataObject {
     
     private static $default_sort = 'Sort';
     
-    private static $defaults = array(
-        'ZoomLevel' => 10
-    );
-    
-    public function getCMSFields() {    
+    public function getCMSFields() {
         $fields = parent::getCMSFields();
         
         $fields->removeByname('ParentID');
-        $fields->removeByname('MapLocationHelp');
-        $fields->removeByname('Address');
-        $fields->removeByname('PostCode');
         $fields->removeByname('Latitude');
         $fields->removeByname('Longitude');
-        $fields->removeByname('ZoomLevel');
-        $fields->removeByname('Content');
+        $fields->removeByname('Zoom');
         $fields->removeByname('Sort');
         
-        $fields->addFieldToTab(
+        $fields->addFieldsToTab(
             "Root.Main",
-            HtmlEditorField::create(
-                "Content",
-                "Content to be displayed with this map"
-            )->addExtraClass('stacked')
-            ->setRows(15)
-        );
-        
-        $config_fields = ToggleCompositeField::create(
-            'MapConfig',
-            'Configuration Options',
             array(
-                LiteralField::create('MapLocationHelp', '<p class="field">Set EITHER an address / post code OR latitude / longitude to generate a map</p>'),
-                TextAreaField::create("Address"),
-                TextField::create("PostCode", "Post Code"),
-                TextField::create("Latitude"),
-                TextField::create("Longitude"),
-                NumericField::create("ZoomLevel", "Zoom (1 = world, 20 = close)"),
+                GoogleMapField::create($this,"Find the location"),
+                ReadOnlyField::create("Latitude"),
+                ReadOnlyField::create("Longitude"),
+                ReadOnlyField::create("Zoom")
             )
-        )->setHeadingLevel(4);
-
-        $fields->addFieldToTab('Root.Main', $config_fields);
+        );
         
         return $fields;
     }
