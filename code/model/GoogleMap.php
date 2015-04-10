@@ -23,7 +23,7 @@ class GoogleMap extends DataObject {
     );
     
     private static $casting = array(
-        'FullAddress'   => 'HTMLText',
+        'Content'   => 'HTMLText',
         'Location'      => 'Text',
         'Link'          => 'Text',
         'ImgURL'        => 'Text'
@@ -76,11 +76,11 @@ class GoogleMap extends DataObject {
     }
     
     private function url_safe_address() {
-        $address  = str_replace('/n', ',', $this->Address);
+        $address  = str_replace(array('\r\n', '\n'), ',', $this->Address);
         $address .= ',' . $this->PostCode;
         
         return urlencode($address);
-    } 
+    }
     
     /**
      * Get the location for this map, either address / postcode or lat / long
@@ -104,8 +104,10 @@ class GoogleMap extends DataObject {
      *
      * @return String
      */
-    public function getFullAddress() {
-        return Convert::raw2xml($this->Address . '/n' . $this->PostCode);
+    public function getContent() {
+    	$address = $this->Title ? '<b>' . $this->Title . '</b><br />' : '';
+    	$address .= $this->Address ? nl2br($this->Address) : '';
+        return $address;
     }
     
     /**
@@ -120,7 +122,7 @@ class GoogleMap extends DataObject {
         if($location) {
             $link  = 'http://maps.google.com/maps?q=';
             $link .= $location;
-            $link .= '&amp;z='.$this->ZoomLevel;
+            $link .= '&amp;z='.$this->Zoom;
         }
     
         return $link;
@@ -138,7 +140,7 @@ class GoogleMap extends DataObject {
         if($location) {
             $link = 'http://maps.googleapis.com/maps/api/staticmap?';
             $link .= 'center=' . $location;
-            $link .= '&zoom=' . $this->ZoomLevel;
+            $link .= '&zoom=' . $this->Zoom;
             $link .= '&size=' . $width . 'x' . $height . '';
             $link .= '&maptype=roadmap';
             $link .= '&markers=color:red%7C' . $location;
