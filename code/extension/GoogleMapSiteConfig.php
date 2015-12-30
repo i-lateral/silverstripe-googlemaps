@@ -6,7 +6,8 @@
  */
  
 class GoogleMapSiteConfig extends DataExtension {
-    public static $db = array(
+    
+	private static $db = array(
         'APIKey'   => 'Varchar(100)'
     );
 

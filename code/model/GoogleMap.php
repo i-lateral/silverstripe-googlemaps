@@ -6,7 +6,8 @@
  *
  */
 class GoogleMap extends DataObject {
-    private $api_key;
+    
+	private $api_key;
 
     private static $db = array(
         'Title'             => 'Varchar',
@@ -15,15 +16,21 @@ class GoogleMap extends DataObject {
         'Latitude'          => 'Varchar',
         'Longitude'         => 'Varchar',
         'Zoom'              => 'Int',
-        'Sort'              => 'Int'
+        'Sort'              => 'Int',
+		'CircleRadius'      => 'Int',
+		'CircleColor'       => 'Varchar',
     );
     
     private static $has_one = array(
         'Parent' => 'SiteTree'
     );
     
+    private static $defaults = array(
+		'CircleColor'   => '#FF0000',
+    );
+
     private static $casting = array(
-        'FullAddress'   => 'HTMLText',
+        'Content'   => 'HTMLText',
         'Location'      => 'Text',
         'Link'          => 'Text',
         'ImgURL'        => 'Text'
@@ -56,7 +63,8 @@ class GoogleMap extends DataObject {
             ),
             "Title"
         );
-        
+        $fields->replaceField('CircleRadius', TextField::create('CircleRadius', _t("GoogleMaps.CircleRadiusInMeter", "Circle Radius in meter (0 if no circle should be drawn)")));
+        $fields->replaceField('CircleColor', TextField::create('CircleColor', _t("GoogleMaps.CircleColor", "Circle Color, i.e. #FF0000 (red will be used if empty)")));
         
         $fields->addFieldsToTab(
             "Root.Map",
@@ -76,11 +84,11 @@ class GoogleMap extends DataObject {
     }
     
     private function url_safe_address() {
-        $address  = str_replace('/n', ',', $this->Address);
+        $address  = str_replace(array('\r\n', '\n'), ',', $this->Address);
         $address .= ',' . $this->PostCode;
         
         return urlencode($address);
-    } 
+    }
     
     /**
      * Get the location for this map, either address / postcode or lat / long
@@ -104,8 +112,10 @@ class GoogleMap extends DataObject {
      *
      * @return String
      */
-    public function getFullAddress() {
-        return Convert::raw2xml($this->Address . '/n' . $this->PostCode);
+    public function getContent() {
+    	$address = $this->Title ? '<b>' . $this->Title . '</b><br />' : '';
+    	$address .= $this->Address ? nl2br($this->Address) : '';
+        return $address;
     }
     
     /**
@@ -120,7 +130,7 @@ class GoogleMap extends DataObject {
         if($location) {
             $link  = 'http://maps.google.com/maps?q=';
             $link .= $location;
-            $link .= '&amp;z='.$this->ZoomLevel;
+            $link .= '&amp;z='.$this->Zoom;
         }
     
         return $link;
@@ -138,7 +148,7 @@ class GoogleMap extends DataObject {
         if($location) {
             $link = 'http://maps.googleapis.com/maps/api/staticmap?';
             $link .= 'center=' . $location;
-            $link .= '&zoom=' . $this->ZoomLevel;
+            $link .= '&zoom=' . $this->Zoom;
             $link .= '&size=' . $width . 'x' . $height . '';
             $link .= '&maptype=roadmap';
             $link .= '&markers=color:red%7C' . $location;
