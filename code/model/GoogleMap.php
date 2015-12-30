@@ -6,7 +6,8 @@
  *
  */
 class GoogleMap extends DataObject {
-    private $api_key;
+    
+	private $api_key;
 
     private static $db = array(
         'Title'             => 'Varchar',
