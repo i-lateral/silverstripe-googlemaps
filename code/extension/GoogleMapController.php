@@ -4,12 +4,14 @@
  * Inject our map data into the Content Controller
  * 
  */
-class GoogleMapController extends Extension {
+class GoogleMapController extends Extension
+{
     
-    public function onBeforeInit() {
+    public function onBeforeInit()
+    {
         Requirements::themedCSS('GoogleMaps', 'googlemaps');
         
-        if(
+        if (
             $this->owner->Maps()->exists()
             && $this->owner->ShowMap
             && !$this->owner->StaticMap
@@ -23,13 +25,14 @@ class GoogleMapController extends Extension {
         }
     }
     
-    public function onAfterInit() {
-        if(
+    public function onAfterInit()
+    {
+        if (
             $this->owner->Maps()->exists()
             && $this->owner->ShowMap
             && !$this->owner->StaticMap
         ) {
-            foreach($this->owner->Maps() as $map) {
+            foreach ($this->owner->Maps() as $map) {
                 $vars = array(
                     'MapID'         => "google-map-dynamic-{$map->ID}",
                     'Content'       => $map->Content,
@@ -47,15 +50,17 @@ class GoogleMapController extends Extension {
         }
     }
 
-    public function GoogleMaps() {
-        if($this->owner->Maps()->exists() && $this->owner->ShowMap) {
+    public function GoogleMaps()
+    {
+        if ($this->owner->Maps()->exists() && $this->owner->ShowMap) {
             $config = SiteConfig::current_site_config();
             $vars = array(
                 'Maps' => $this->owner->Maps()
             );
         
-            return $this->owner->renderWith('GoogleMaps',$vars);
-        } else
+            return $this->owner->renderWith('GoogleMaps', $vars);
+        } else {
             return false;
+        }
     }
 }
