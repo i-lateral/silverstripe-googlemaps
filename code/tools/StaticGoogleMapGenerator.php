@@ -6,6 +6,6 @@
  * 
  * @author morven [at] i-lateral.com
  */
-class StaticGoogleMapGenerator {
-    
+class StaticGoogleMapGenerator
+{
 }
