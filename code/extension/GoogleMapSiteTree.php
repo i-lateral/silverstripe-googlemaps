@@ -9,7 +9,8 @@
  * @author morven [at] i-lateral.com
  *
  **/
-class GoogleMapSiteTree extends DataExtension {
+class GoogleMapSiteTree extends DataExtension
+{
 
     public static $db = array(
         'ShowMap'   => 'Boolean',
@@ -20,8 +21,9 @@ class GoogleMapSiteTree extends DataExtension {
         'Maps' => "GoogleMap"
     );
     
-    public function updateCMSFields(FieldList $fields) {
-        if($this->owner->ShowMap) {
+    public function updateCMSFields(FieldList $fields)
+    {
+        if ($this->owner->ShowMap) {
             $maps_field = new GridField(
                 'Maps',
                 '',
@@ -29,13 +31,13 @@ class GoogleMapSiteTree extends DataExtension {
                 $config = GridFieldConfig_RecordEditor::create()
             );
             
-		    $config->addComponent(new GridFieldOrderableRows('Sort'));
+            $config->addComponent(new GridFieldOrderableRows('Sort'));
 
             // Add creation button if member has create permissions
-            if($this->owner->canCreate()) {
+            if ($this->owner->canCreate()) {
                 $config->removeComponentsByType('GridFieldAddNewButton');
-		        $add_button = new GridFieldAddNewButton('toolbar-header-left');
-		        $add_button->setButtonName(_t("GoogleMaps.AddGoogleMap", "Add Google Map"));
+                $add_button = new GridFieldAddNewButton('toolbar-header-left');
+                $add_button->setButtonName(_t("GoogleMaps.AddGoogleMap", "Add Google Map"));
                 $config->addComponent($add_button);
             }
             
@@ -45,7 +47,8 @@ class GoogleMapSiteTree extends DataExtension {
         return $fields;
     }
     
-    public function updateSettingsFields(FieldList $fields) {
+    public function updateSettingsFields(FieldList $fields)
+    {
         $maps_group = FieldGroup::create(
             CheckboxField::create("ShowMap", "Enable maps on this page?"),
             CheckboxField::create("StaticMap", "Render maps as images?")

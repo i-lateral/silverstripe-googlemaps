@@ -5,12 +5,14 @@
  *
  */
  
-class GoogleMapSiteConfig extends DataExtension {
+class GoogleMapSiteConfig extends DataExtension
+{
     public static $db = array(
         'APIKey'   => 'Varchar(100)'
     );
 
-    public function updateCMSFields(FieldList $fields) {
+    public function updateCMSFields(FieldList $fields)
+    {
         $fields->addFieldToTab('Root.Main', TextField::create('APIKey', 'Google Maps API Key'));
     }
 }
