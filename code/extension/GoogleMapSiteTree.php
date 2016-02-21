@@ -3,7 +3,7 @@
 /**
  * This class adds maps support to the CMS, allowing you to tick "Show maps"
  * under the settings pane. This then adds the Maps gridfield to the content
- * fields. 
+ * fields.
  *
  * @author nicolaas[at] sunnysideup.co.nz
  * @author morven [at] i-lateral.com
@@ -16,11 +16,11 @@ class GoogleMapSiteTree extends DataExtension
         'ShowMap'   => 'Boolean',
         'StaticMap' => 'Boolean'
     );
-    
+
     public static $has_many = array(
         'Maps' => "GoogleMap"
     );
-    
+
     public function updateCMSFields(FieldList $fields)
     {
         if ($this->owner->ShowMap) {
@@ -30,7 +30,7 @@ class GoogleMapSiteTree extends DataExtension
                 $this->owner->Maps(),
                 $config = GridFieldConfig_RecordEditor::create()
             );
-            
+
             $config->addComponent(new GridFieldOrderableRows('Sort'));
 
             // Add creation button if member has create permissions
@@ -40,22 +40,22 @@ class GoogleMapSiteTree extends DataExtension
                 $add_button->setButtonName(_t("GoogleMaps.AddGoogleMap", "Add Google Map"));
                 $config->addComponent($add_button);
             }
-            
+
             $fields->addFieldToTab('Root.Maps', $maps_field);
         }
-    
+
         return $fields;
     }
-    
+
     public function updateSettingsFields(FieldList $fields)
     {
         $maps_group = FieldGroup::create(
             CheckboxField::create("ShowMap", "Enable maps on this page?"),
             CheckboxField::create("StaticMap", "Render maps as images?")
         )->setTitle('Google Maps');
-    
+
         $fields->addFieldToTab("Root.Settings", $maps_group);
-        
+
         return $fields;
     }
 }

@@ -2,15 +2,15 @@
 
 /**
  * Inject our map data into the Content Controller
- * 
+ *
  */
 class GoogleMapController extends Extension
 {
-    
+
     public function onBeforeInit()
     {
         Requirements::themedCSS('GoogleMaps', 'googlemaps');
-        
+
         if (
             $this->owner->Maps()->exists()
             && $this->owner->ShowMap
@@ -18,13 +18,13 @@ class GoogleMapController extends Extension
         ) {
             $config = SiteConfig::current_site_config();
             $key = ($config->APIKey) ? "&key={$config->APIKey}" : '';
-            
+
             Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
             Requirements::javascript("http://maps.googleapis.com/maps/api/js?sensor=false" . $key);
             Requirements::javascript('googlemaps/javascript/gmap3.min.js');
         }
     }
-    
+
     public function onAfterInit()
     {
         if (
@@ -41,7 +41,7 @@ class GoogleMapController extends Extension
                     'Longitude'     => ($map->Longitude) ? $map->Longitude : 'false',
                     'Zoom'          => $map->ZoomLevel
                 );
-            
+
                 Requirements::javascriptTemplate(
                     'googlemaps/javascript/GoogleMap.js',
                     $vars
@@ -57,7 +57,7 @@ class GoogleMapController extends Extension
             $vars = array(
                 'Maps' => $this->owner->Maps()
             );
-        
+
             return $this->owner->renderWith('GoogleMaps', $vars);
         } else {
             return false;

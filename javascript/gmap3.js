@@ -119,11 +119,11 @@
   }
 
   /**
-   * attach events from a container to a sender 
+   * attach events from a container to a sender
    * todo[
    *  events => { eventName => function, }
-   *  onces  => { eventName => function, }  
-   *  data   => mixed data         
+   *  onces  => { eventName => function, }
+   *  data   => mixed data
    * ]
    **/
   function attachEvents($container, args, sender, id, senders){
@@ -163,7 +163,7 @@
   /***************************************************************************/
   /*                                STACK                                    */
   /***************************************************************************/
-  
+
   function Stack (){
     var st = [];
     this.empty = function (){
@@ -183,17 +183,17 @@
   /***************************************************************************/
   /*                                TASK                                     */
   /***************************************************************************/
-  
+
   function Task(ctx, onEnd, todo){
     var session = {},
-      that = this, 
+      that = this,
       current,
       resolve = {
         latLng:{ // function => bool (=> address = latLng)
-          map:false, 
-          marker:false, 
-          infowindow:false, 
-          circle:false, 
+          map:false,
+          marker:false,
+          infowindow:false,
+          circle:false,
           overlay: false,
           getlatlng: false,
           getmaxzoom: false,
@@ -205,17 +205,17 @@
           getgeoloc: true
         }
       };
-      
+
     if (typeof todo === "string"){
       todo =  unify(todo);
     }
-  
+
     function unify(todo){
       var result = {};
       result[todo] = {};
       return result;
     }
-    
+
     function next(){
       var k;
       for(k in todo){
@@ -225,7 +225,7 @@
         return k;
       }
     }
-    
+
     this.run = function (){
       var k, opts;
       while(k = next()){
@@ -250,13 +250,13 @@
       }
       onEnd.apply(ctx, [todo, session]);
     };
-    
+
     this.ack = function(result){
       session[current] = result;
       that.run.apply(that, []);
     };
   }
-  
+
   function getKeys(obj){
     var k, keys = [];
     for(k in obj){
@@ -264,10 +264,10 @@
     }
     return keys;
   }
-  
+
   function tuple(args, value){
     var todo = {};
-    
+
     // "copy" the common data
     if (args.todo){
       for(var k in args.todo){
@@ -281,13 +281,13 @@
     for(i=0; i<keys.length; i++){
       copyKey(todo, keys[i], value, args.todo);
     }
-    
+
     // create an extended options
     todo.options = $.extend({}, args.opts || {}, value.options || {});
-    
+
     return todo;
   }
-  
+
   /**
    * copy a key content
    **/
@@ -299,14 +299,14 @@
       }
     }
   }
-  
+
   /***************************************************************************/
   /*                             GEOCODERCACHE                               */
   /***************************************************************************/
-  
+
   function GeocoderCache(){
     var cache = [];
-    
+
     this.get = function(request){
       if (cache.length){
         var i, j, k, item, eq,
@@ -331,7 +331,7 @@
         }
       }
     };
-    
+
     this.store = function(request, results){
       cache.push({request:request, keys:getKeys(request), results:results});
     };
@@ -342,10 +342,10 @@
   /***************************************************************************/
   function OverlayView(map, opts, latLng, $div) {
     var that = this, listeners = [];
-    
+
     defaults.classes.OverlayView.call(this);
     this.setMap(map);
-    
+
     this.onAdd = function() {
         var panes = this.getPanes();
         if (opts.pane in panes) {
@@ -413,37 +413,37 @@
   /***************************************************************************/
   /*                              CLUSTERING                                 */
   /***************************************************************************/
-      
+
   /**
    * Usefull to get a projection
-   * => done in a function, to let dead-code analyser works without google library loaded    
+   * => done in a function, to let dead-code analyser works without google library loaded
    **/
   function newEmptyOverlay(map, radius){
-    function Overlay(){ 
+    function Overlay(){
       this.onAdd = function(){};
       this.onRemove = function(){};
       this.draw = function(){};
-      return defaults.classes.OverlayView.apply(this, []); 
+      return defaults.classes.OverlayView.apply(this, []);
     }
     Overlay.prototype = defaults.classes.OverlayView.prototype;
     var obj = new Overlay();
-    obj.setMap(map); 
+    obj.setMap(map);
     return obj;
   }
-  
+
   /**
    * Class InternalClusterer
    * This class manage clusters thanks to "todo" objects
-   * 
-   * Note: 
-   * Individuals marker are created on the fly thanks to the todo objects, they are 
+   *
+   * Note:
+   * Individuals marker are created on the fly thanks to the todo objects, they are
    * first set to null to keep the indexes synchronised with the todo list
-   * This is the "display" function, set by the gmap3 object, which uses theses data 
+   * This is the "display" function, set by the gmap3 object, which uses theses data
    * to create markers when clusters are not required
    * To remove a marker, the objects are deleted and set not null in arrays
    *    markers[key]
    *      = null : marker exist but has not been displayed yet
-   *      = false : marker has been removed       
+   *      = false : marker has been removed
    **/
   function InternalClusterer($container, map, raw){
     var updating = false,
@@ -462,7 +462,7 @@
       overlay = newEmptyOverlay(map, raw.radius),
       timer, projection,
       ffilter, fdisplay, ferror; // callback function
-      
+
     main();
 
     function prepareMarker(index) {
@@ -505,7 +505,7 @@
       delete idxs[index];
       updated = true;
     };
-    
+
     /**
      * remove a marker by its id
      **/
@@ -546,7 +546,7 @@
         this.rm(list[i]);
       }
     };
-    
+
     // add a "marker todo" to the cluster
     this.add = function(todo, value){
       todo.id = globalId(todo.id);
@@ -558,7 +558,7 @@
       values.push(value);
       updated = true;
     };
-    
+
     // add a real marker to the cluster
     this.addMarker = function(marker, todo){
       todo = todo || {};
@@ -576,13 +576,13 @@
       values.push(todo.data || {});
       updated = true;
     };
-    
-    // return a "marker todo" by its index 
+
+    // return a "marker todo" by its index
     this.todo = function(index){
       return todos[index];
     };
-    
-    // return a "marker value" by its index 
+
+    // return a "marker value" by its index
     this.value = function(index){
       return values[index];
     };
@@ -600,34 +600,34 @@
     this.markerIsSet = function(index){
       return Boolean(markers[index]);
     };
-    
+
     // store a new marker instead if the default "false"
     this.setMarker = function(index, marker){
       markers[index] = marker;
     };
-    
+
     // link the visible overlay to the logical data (to hide overlays later)
     this.store = function(cluster, obj, shadow){
       store[cluster.ref] = {obj:obj, shadow:shadow};
     };
-    
+
     // free all objects
     this.free = function(){
       for(var i = 0; i < events.length; i++){
         google.maps.event.removeListener(events[i]);
       }
       events = [];
-      
+
       $.each(store, function(key){
         flush(key);
       });
       store = {};
-      
+
       $.each(todos, function(i){
         todos[i] = null;
       });
       todos = [];
-      
+
       $.each(markers, function(i){
         if (markers[i]){ // false = removed
           markers[i].setMap(null);
@@ -635,22 +635,22 @@
         }
       });
       markers = [];
-      
+
       $.each(values, function(i){
         delete values[i];
       });
       values = [];
-      
+
       ids = {};
       idxs = {};
     };
-    
+
     // link the display function
     this.filter = function(f){
       ffilter = f;
       redraw();
     };
-    
+
     // enable/disable the clustering feature
     this.enable = function(value){
       if (enabled != value){
@@ -658,22 +658,22 @@
         redraw();
       }
     };
-    
+
     // link the display function
     this.display = function(f){
       fdisplay = f;
     };
-    
+
     // link the errorfunction
     this.error = function(f){
       ferror = f;
     };
-    
+
     // lock the redraw
     this.beginUpdate = function(){
       updating = true;
     };
-    
+
     // unlock the redraw
     this.endUpdate = function(){
       updating = false;
@@ -690,7 +690,7 @@
         }
       }
     };
-    
+
     // bind events
     function main(){
       projection = overlay.getProjection();
@@ -706,7 +706,7 @@
       events.push(google.maps.event.addListener(map, "bounds_changed", function(){delayRedraw();}));
       redraw();
     }
-    
+
     // flush overlays
     function flush(key){
       if (typeof store[key] === "object"){ // is overlay
@@ -730,10 +730,10 @@
       }
       delete store[key];
     }
-    
+
     /**
      * return the distance between 2 latLng couple into meters
-     * Params :   
+     * Params :
      *  Lat1, Lng1, Lat2, Lng2
      *  LatLng1, Lat2, Lng2
      *  Lat1, Lng1, LatLng2
@@ -768,18 +768,18 @@
       h = Math.PI*lng2/180;
       return 1000*6371 * Math.acos(Math.min(Math.cos(e)*Math.cos(g)*Math.cos(f)*Math.cos(h)+Math.cos(e)*Math.sin(f)*Math.cos(g)*Math.sin(h)+Math.sin(e)*Math.sin(g),1));
     }
-    
-    // extend the visible bounds 
+
+    // extend the visible bounds
     function extendsMapBounds(){
-      var radius = distanceInMeter(map.getCenter(), map.getBounds().getNorthEast()), 
+      var radius = distanceInMeter(map.getCenter(), map.getBounds().getNorthEast()),
         circle = new google.maps.Circle({
           center: map.getCenter(),
           radius: 1.25 * radius // + 25%
         });
       return circle.getBounds();
     }
-    
-    // return an object where keys are store keys 
+
+    // return an object where keys are store keys
     function getStoreKeys(){
       var keys = {}, k;
       for(k in store){
@@ -787,7 +787,7 @@
       }
       return keys;
     }
-    
+
     // async the delay function
     function delayRedraw(){
       clearTimeout(timer);
@@ -796,7 +796,7 @@
       },
       25);
     }
-    
+
     // generate bounds extended by radius
     function extendsBounds(latLng) {
       var p = projection.fromLatLngToDivPixel(latLng),
@@ -804,7 +804,7 @@
         sw = projection.fromDivPixelToLatLng(new google.maps.Point(p.x-raw.radius, p.y+raw.radius));
       return new google.maps.LatLngBounds(sw, ne);
     }
-    
+
     // run the clustering process and call the display function
     function redraw(){
       if (updating || redrawing || !ready){
@@ -913,7 +913,7 @@
       redrawing = false;
     }
   }
-  
+
   /**
    * Class Clusterer
    * a facade with limited method for external use
@@ -967,7 +967,7 @@
   /***************************************************************************/
   /*                                STORE                                    */
   /***************************************************************************/
-  
+
   function Store(){
     var store = {}, // name => [id, ...]
       objects = {}; // id => object
@@ -981,7 +981,7 @@
         data:res.data
       };
     }
-    
+
     /**
      * add a mixed to the store
      **/
@@ -998,7 +998,7 @@
       store[name].push(id);
       return id;
     };
-    
+
     /**
      * return a stored object by its id
      **/
@@ -1014,7 +1014,7 @@
       }
       return false;
     };
-    
+
     /**
      * return a stored value
      **/
@@ -1036,7 +1036,7 @@
       }
       return null;
     };
-    
+
     /**
      * return all stored values
      **/
@@ -1064,7 +1064,7 @@
       }
       return result;
     };
-    
+
     /**
      * hide and remove an object
      **/
@@ -1116,7 +1116,7 @@
       }
       return this.clearById(store[name][idx], idx);
     };
-    
+
     /**
      * remove object from the store by its id
      **/
@@ -1138,10 +1138,10 @@
       }
       return false;
     };
-    
+
     /**
      * return an object from a container object in the store by its id
-     * ! for now, only cluster manage this feature 
+     * ! for now, only cluster manage this feature
      **/
     this.objGetById = function(id){
       var result;
@@ -1154,10 +1154,10 @@
       }
       return false;
     };
-    
+
     /**
      * remove object from a container object in the store by its id
-     * ! for now, only cluster manage this feature 
+     * ! for now, only cluster manage this feature
      **/
     this.objClearById = function(id){
       if (store["clusterer"]) {
@@ -1169,7 +1169,7 @@
       }
       return null;
     };
-    
+
     /**
      * remove objects from the store
      **/
@@ -1207,57 +1207,57 @@
       }
     };
   }
-  
+
   /***************************************************************************/
   /*                           GMAP3 GLOBALS                                 */
   /***************************************************************************/
-  
+
   var services = {},
     geocoderCache = new GeocoderCache();
-    
+
   //-----------------------------------------------------------------------//
   // Service tools
   //-----------------------------------------------------------------------//
-  
+
   function geocoder(){
     if (!services.geocoder) {
       services.geocoder = new google.maps.Geocoder();
     }
     return services.geocoder;
   }
-  
+
   function directionsService(){
     if (!services.directionsService) {
       services.directionsService = new google.maps.DirectionsService();
     }
     return services.directionsService;
   }
-  
+
   function elevationService(){
     if (!services.elevationService) {
       services.elevationService = new google.maps.ElevationService();
     }
     return services.elevationService;
   }
-  
+
   function maxZoomService(){
     if (!services.maxZoomService) {
       services.maxZoomService = new google.maps.MaxZoomService();
     }
     return services.maxZoomService;
   }
-  
+
   function distanceMatrixService(){
     if (!services.distanceMatrixService) {
       services.distanceMatrixService = new google.maps.DistanceMatrixService();
     }
     return services.distanceMatrixService;
   }
-  
+
   //-----------------------------------------------------------------------//
   // Unit tools
   //-----------------------------------------------------------------------//
-  
+
   function error(){
     if (defaults.verbose){
       var i, err = [];
@@ -1282,7 +1282,7 @@
   function numeric(mixed){
     return (typeof(mixed) === "number" || typeof(mixed) === "string") && mixed !== "" && !isNaN(mixed);
   }
-  
+
   /**
    * convert data to array
    **/
@@ -1297,7 +1297,7 @@
             a.push(mixed[k]);
           }
         }
-      } else{ 
+      } else{
         a.push(mixed);
       }
     }
@@ -1329,7 +1329,7 @@
       }
     }
   }
-  
+
   /**
    * convert mixed [ lat, lng ] objet to google.maps.LatLng
    **/
@@ -1345,12 +1345,12 @@
     // google.maps.LatLng object
     if (mixed instanceof google.maps.LatLng) {
       return mixed;
-    } 
+    }
     // {lat:X, lng:Y} object
     else if ( numeric(mixed.lat) ) {
       return new google.maps.LatLng(mixed.lat, mixed.lng);
     }
-    // [X, Y] object 
+    // [X, Y] object
     else if ( !noFlat && $.isArray(mixed)){
       if ( !numeric(mixed[0]) || !numeric(mixed[1]) ) {
         return empty;
@@ -1359,7 +1359,7 @@
     }
     return empty;
   }
-  
+
   /**
    * convert mixed [ sw, ne ] object by google.maps.LatLngBounds
    **/
@@ -1390,9 +1390,9 @@
     }
     return null;
   }
-  
+
   /**
-   * resolveLatLng      
+   * resolveLatLng
    **/
   function resolveLatLng(ctx, method, runLatLng, args, attempt){
     var latLng = runLatLng ? toLatLng(args.todo, false, true) : false,
@@ -1414,7 +1414,7 @@
           conf.bounds = toLatLngBounds(conf.bounds);
         }
         geocoder().geocode(
-          conf, 
+          conf,
           function(results, status) {
             if (status === google.maps.GeocoderStatus.OK){
               geocoderCache.store(conf, {results:results, status:status});
@@ -1443,22 +1443,22 @@
       method.apply(ctx, [args]);
     }
   }
-  
+
   function resolveAllLatLng(list, ctx, method, args){
     var that = this, i = -1;
-    
+
     function resolve(){
       // look for next address to resolve
       do{
         i++;
       }while( (i < list.length) && !("address" in list[i]) );
-      
-      // no address found, so run method 
+
+      // no address found, so run method
       if (i >= list.length){
         method.apply(ctx, [args]);
         return;
       }
-      
+
       resolveLatLng(
         that,
         function(args){
@@ -1472,7 +1472,7 @@
     }
     resolve();
   }
-    
+
   /**
    * geolocalise the user and return a LatLng
    **/
@@ -1487,7 +1487,7 @@
           is_echo = true;
           args.latLng = new google.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
           method.apply(ctx, [args]);
-        }, 
+        },
         function() {
           if (is_echo){
             return;
@@ -1507,14 +1507,14 @@
   /***************************************************************************/
   /*                                GMAP3                                    */
   /***************************************************************************/
-  
+
   function Gmap3($this){
     var that = this,
       stack = new Stack(),
       store = new Store(),
       map = null,
       task;
-    
+
     //-----------------------------------------------------------------------//
     // Stack tools
     //-----------------------------------------------------------------------//
@@ -1528,7 +1528,7 @@
       }
       run();
     };
-    
+
     /**
      * if not running, start next action in stack
      **/
@@ -1537,7 +1537,7 @@
         task.run();
       }
     }
-    
+
     /**
      * called when action in finished, to acknoledge the current in stack and start next one
      **/
@@ -1546,13 +1546,13 @@
       stack.ack();
       run.call(that); // restart to high level scope
     }
-    
+
     //-----------------------------------------------------------------------//
     // Tools
     //-----------------------------------------------------------------------//
-    
+
     /**
-     * execute callback functions 
+     * execute callback functions
      **/
     function callback(args){
       if (args.todo.callback) {
@@ -1566,9 +1566,9 @@
         }
       }
     }
-    
+
     /**
-     * execute ending functions 
+     * execute ending functions
      **/
     function manageEnd(args, obj, id){
       if (id){
@@ -1577,7 +1577,7 @@
       callback(args, obj);
       task.ack(obj);
     }
-    
+
     /**
      * initialize the map if not yet initialized
      **/
@@ -1596,11 +1596,11 @@
         map = new defaults.classes.Map($this.get(0), opts);
       }
     }
-     
-    /* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+
+    /* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
     => function with latLng resolution
     = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = */
-    
+
     /**
      * Initialize google.maps.Map object
      **/
@@ -1609,7 +1609,7 @@
       attachEvents($this, args, map);
       manageEnd(args, map);
     };
-    
+
     /**
      * destroy an existing instance
      **/
@@ -1621,7 +1621,7 @@
       }
       manageEnd(args, true);
     };
-    
+
     /**
      * add an infowindow
      **/
@@ -1653,7 +1653,7 @@
       });
       manageEnd(args, multiple ? objs : objs[0]);
     };
-    
+
     /**
      * add a circle
      **/
@@ -1681,7 +1681,7 @@
       });
       manageEnd(args, multiple ? objs : objs[0]);
     };
-    
+
     /**
      * add an overlay
      **/
@@ -1719,15 +1719,15 @@
       }
       manageEnd(args, multiple ? objs : objs[0]);
     };
-    
+
     /**
-     * returns address structure from latlng        
+     * returns address structure from latlng
      **/
     this.getaddress = function(args){
       callback(args, args.results, args.status);
       task.ack();
     };
-    
+
     /**
      * returns latlng from an address
      **/
@@ -1735,20 +1735,20 @@
       callback(args, args.results, args.status);
       task.ack();
     };
-    
+
     /**
      * return the max zoom of a location
      **/
     this.getmaxzoom = function(args){
       maxZoomService().getMaxZoomAtLatLng(
-        args.latLng, 
+        args.latLng,
         function(result) {
           callback(args, result.status === google.maps.MaxZoomStatus.OK ? result.zoom : false, status);
           task.ack();
         }
       );
     };
-    
+
     /**
      * return the elevation of a location
      **/
@@ -1758,7 +1758,7 @@
           callback(args, status === google.maps.ElevationStatus.OK ? results : false, status);
           task.ack();
         };
-      
+
       if (args.latLng){
         locations.push(args.latLng);
       } else {
@@ -1782,11 +1782,11 @@
         }
       }
     };
-    
-    /* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+
+    /* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
     => function without latLng resolution
     = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = */
-    
+
     /**
      * define defaults values
      **/
@@ -1800,7 +1800,7 @@
       });
       task.ack(true);
     };
-    
+
     /**
      * add a rectangle
      **/
@@ -1820,7 +1820,7 @@
           newMap(todo.options.bounds.getCenter());
         }
         todo.options.map = map;
-        
+
         obj = new defaults.classes.Rectangle(todo.options);
         objs.push(obj);
         id = store.add({todo:todo}, "rectangle", obj);
@@ -1828,7 +1828,7 @@
       });
       manageEnd(args, multiple ? objs : objs[0]);
     };
-    
+
     /**
      * add a polygone / polyline
      **/
@@ -1865,15 +1865,15 @@
       });
       manageEnd(args, multiple ? objs : objs[0]);
     }
-    
+
     this.polyline = function(args){
       poly(args, "Polyline", "path");
     };
-    
+
     this.polygon = function(args){
       poly(args, "Polygon", "paths");
     };
-    
+
     /**
      * add a traffic layer
      **/
@@ -1887,7 +1887,7 @@
       }
       manageEnd(args, obj);
     };
-    
+
     /**
      * add a bicycling layer
      **/
@@ -1901,7 +1901,7 @@
       }
       manageEnd(args, obj);
     };
-    
+
     /**
      * add a ground overlay
      **/
@@ -1915,7 +1915,7 @@
       id = store.add(args, "groundoverlay", obj);
       manageEnd(args, obj, id);
     };
-    
+
     /**
      * set a streetview
      **/
@@ -1940,7 +1940,7 @@
       id = store.add(args, "streetviewpanorama", obj);
       manageEnd(args, obj, id);
     };
-    
+
     this.kmllayer = function(args){
       var objs = [], multiple = "values" in args.todo;
       if (!multiple){
@@ -1976,7 +1976,7 @@
       });
       manageEnd(args, multiple ? objs : objs[0]);
     };
-    
+
     /**
      * add a fix panel
      **/
@@ -1984,18 +1984,18 @@
       newMap();
       var id, x= 0, y=0, $content,
         $div = $(document.createElement("div"));
-      
+
       $div.css({
         position: "absolute",
         zIndex: 1000,
         visibility: "hidden"
       });
-        
+
       if (args.opts.content){
         $content = $(args.opts.content);
         $div.append($content);
         $this.first().prepend($div);
-        
+
         if (args.opts.left !== undef){
           x = args.opts.left;
         } else if (args.opts.right !== undef){
@@ -2003,7 +2003,7 @@
         } else if (args.opts.center){
           x = ($this.width() - $content.width()) / 2;
         }
-        
+
         if (args.opts.top !== undef){
           y = args.opts.top;
         } else if (args.opts.bottom !== undef){
@@ -2011,7 +2011,7 @@
         } else if (args.opts.middle){
           y = ($this.height() - $content.height()) / 2
         }
-      
+
         $div.css({
             top: y,
             left: x,
@@ -2023,7 +2023,7 @@
       manageEnd(args, $div, id);
       $div = null; // memory leak
     };
-    
+
     /**
      * Create an InternalClusterer object
      **/
@@ -2047,7 +2047,7 @@
         }
       }
       thresholds.sort(function (a, b) { return a > b});
-      
+
       // external calculator
       if (todo.calculator){
         calculator = function(indexes){
@@ -2062,17 +2062,17 @@
           return indexes.length;
         };
       }
-      
+
       // set error function
       internalClusterer.error(function(){
         error.apply(that, arguments);
       });
-      
+
       // set display function
       internalClusterer.display(function(cluster){
         var i, style, atodo, obj, offset,
           cnt = calculator(cluster.indexes);
-        
+
         // look for the style to use
         if (raw.force || cnt > 1) {
           for(i = 0; i < thresholds.length; i++) {
@@ -2081,7 +2081,7 @@
             }
           }
         }
-        
+
         if (style){
           offset = style.offset || [-style.width/2, -style.height/2];
           // create a custom overlay command
@@ -2096,13 +2096,13 @@
             }
           },
           todo.options || {});
-          
+
           obj = that.overlay({todo:atodo, opts:atodo.options, latLng:toLatLng(cluster)}, true);
-          
+
           atodo.options.pane = "floatShadow";
           atodo.options.content = $(document.createElement("div")).width(style.width+"px").height(style.height+"px").css({cursor:"pointer"});
           shadow = that.overlay({todo:atodo, opts:atodo.options, latLng:toLatLng(cluster)}, true);
-          
+
           // store data to the clusterer
           todo.data = {
             latLng: toLatLng(cluster),
@@ -2122,7 +2122,7 @@
           });
         }
       });
-      
+
       return internalClusterer;
     }
     /**
@@ -2142,7 +2142,7 @@
       if (init){
         newMap();
       }
-      
+
       if (args.todo.cluster && !map.getBounds()){ // map not initialised => bounds not available : wait for map if clustering feature is required
         google.maps.event.addListenerOnce(map, "bounds_changed", function() { that.marker.apply(that, [args]); });
         return;
@@ -2158,7 +2158,7 @@
           store.add(args, "clusterer", clusterer, internalClusterer);
         }
         internalClusterer.beginUpdate();
-        
+
         $.each(args.todo.values, function(i, value){
           var todo = tuple(args, value);
           todo.options.position = todo.options.position ? toLatLng(todo.options.position) : toLatLng(value);
@@ -2169,10 +2169,10 @@
           }
           internalClusterer.add(todo, value);
         });
-        
+
         internalClusterer.endUpdate();
         manageEnd(args, clusterer);
-        
+
       } else {
         var objs = [];
         $.each(args.todo.values, function(i, value){
@@ -2191,7 +2191,7 @@
         manageEnd(args, multiple ? objs : objs[0]);
       }
     };
-    
+
     /**
      * return a route
      **/
@@ -2206,7 +2206,7 @@
         }
       );
     };
-    
+
     /**
      * add a direction renderer
      **/
@@ -2221,14 +2221,14 @@
       id = store.add(args, "directionsrenderer", obj);
       manageEnd(args, obj, id);
     };
-    
+
     /**
-     * returns latLng of the user        
+     * returns latLng of the user
      **/
     this.getgeoloc = function(args){
       manageEnd(args, args.latLng);
     };
-    
+
     /**
      * add a style
      **/
@@ -2238,7 +2238,7 @@
       map.mapTypes.set(args.todo.id, obj);
       manageEnd(args, obj);
     };
-    
+
     /**
      * add an imageMapType
      **/
@@ -2248,7 +2248,7 @@
       map.mapTypes.set(args.todo.id, obj);
       manageEnd(args, obj);
     };
-    
+
     /**
      * autofit a map using its overlays (markers, rectangles ...)
      **/
@@ -2284,8 +2284,8 @@
         if ("maxZoom" in args.todo){
           // fitBouds Callback event => detect zoom level and check maxZoom
           google.maps.event.addListenerOnce(
-            map, 
-            "bounds_changed", 
+            map,
+            "bounds_changed",
             function() {
               if (this.getZoom() > args.todo.maxZoom){
                 this.setZoom(args.todo.maxZoom);
@@ -2297,7 +2297,7 @@
       }
       manageEnd(args, true);
     };
-    
+
     /**
      * remove objects from a map
      **/
@@ -2319,7 +2319,7 @@
       }
       manageEnd(args, true);
     };
-    
+
     /**
      * run a function on each items selected
      **/
@@ -2332,7 +2332,7 @@
       });
       manageEnd(args, true);
     };
-    
+
     /**
      * return objects previously created
      **/
@@ -2393,7 +2393,7 @@
 
     /**
      * return the distance between an origin and a destination
-     *      
+     *
      **/
     this.getdistance = function(args){
       var i;
@@ -2413,9 +2413,9 @@
         }
       );
     };
-    
+
     /**
-     * trigger events on the map 
+     * trigger events on the map
      **/
     this.trigger = function(args){
       if (typeof args.todo === "string"){
@@ -2454,18 +2454,18 @@
     }
     return !obj.get.hasOwnProperty("callback");
   }
-  
+
   //-----------------------------------------------------------------------//
   // jQuery plugin
   //-----------------------------------------------------------------------//
-    
+
   $.fn.gmap3 = function(){
     var i, list = [], empty = true, results = [];
-    
+
     // init library
     initDefaults();
-    
-    // store all arguments in a todo list 
+
+    // store all arguments in a todo list
     for(i=0; i<arguments.length; i++){
       if (arguments[i]){
         list.push(arguments[i]);
@@ -2495,8 +2495,8 @@
         gmap3._plan(list);
       }
     });
-    
-    // return for direct call only 
+
+    // return for direct call only
     if (results.length){
       if (results.length === 1){ // 1 css selector
         return results[0];
@@ -2504,7 +2504,7 @@
         return results;
       }
     }
-    
+
     return this;
   }
 
