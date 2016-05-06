@@ -12,12 +12,12 @@
 class GoogleMapSiteTree extends DataExtension
 {
 
-    public static $db = array(
+    private static $db = array(
         'ShowMap'   => 'Boolean',
         'StaticMap' => 'Boolean'
     );
     
-    public static $has_many = array(
+    private static $has_many = array(
         'Maps' => "GoogleMap"
     );
     
