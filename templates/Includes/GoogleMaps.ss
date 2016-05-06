@@ -2,7 +2,7 @@
     <div class="google-maps">
         <% loop $Maps %>
             <div class="google-map <% if $Top.StaticMap %>google-map-static<% end_if %>">
-                <h2>$Title</h2>
+                <% if $Title %><h2>$Title</h2><% end_if %>
                 <% if $Top.StaticMap %>
                     <div class="google-map-content">
                         $Content

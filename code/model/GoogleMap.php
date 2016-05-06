@@ -16,11 +16,17 @@ class GoogleMap extends DataObject
         'Latitude'          => 'Varchar',
         'Longitude'         => 'Varchar',
         'Zoom'              => 'Int',
-        'Sort'              => 'Int'
+        'Sort'              => 'Int',
+        'CircleRadius'      => 'Int',
+        'CircleColor'       => 'Varchar',
     );
     
     private static $has_one = array(
         'Parent' => 'SiteTree'
+    );
+    
+    private static $defaults = array(
+        'CircleColor'   => '#FF0000',
     );
     
     private static $casting = array(
@@ -59,6 +65,8 @@ class GoogleMap extends DataObject
             "Title"
         );
         
+        $fields->replaceField('CircleRadius', TextField::create('CircleRadius', _t("GoogleMaps.CircleRadiusInMeter", "Circle Radius in meter (0 if no circle should be drawn)")));
+        $fields->replaceField('CircleColor', TextField::create('CircleColor', _t("GoogleMaps.CircleColor", "Circle Color, i.e. #FF0000 (red will be used if empty)")));
         
         $fields->addFieldsToTab(
             "Root.Map",

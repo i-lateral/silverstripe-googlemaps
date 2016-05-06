@@ -33,19 +33,49 @@ class GoogleMapController extends Extension
             && !$this->owner->StaticMap
         ) {
             foreach ($this->owner->Maps() as $map) {
+
+                // draw map
                 $vars = array(
                     'MapID'         => "google-map-dynamic-{$map->ID}",
-                    'Content'       => $map->Content,
-                    'Address'       => ($map->Address) ? str_replace('/n', ',', $map->Address) . ',' . $map->PostCode : 'false',
                     'Latitude'      => ($map->Latitude) ? $map->Latitude : 'false',
                     'Longitude'     => ($map->Longitude) ? $map->Longitude : 'false',
                     'Zoom'          => $map->ZoomLevel
                 );
-            
                 Requirements::javascriptTemplate(
                     'googlemaps/javascript/GoogleMap.js',
                     $vars
                 );
+
+                // draw markers
+                if ($map->Address) {
+	                $vars = array(
+	                    'MapID'         => "google-map-dynamic-{$map->ID}",
+	                    'Content'       => $map->Content,
+	                    'Address'       => ($map->Address) ? str_replace(array('\r\n', '\n'), ', ', $map->Address) : 'false',
+	                    'Latitude'      => ($map->Latitude) ? $map->Latitude : 'false',
+	                    'Longitude'     => ($map->Longitude) ? $map->Longitude : 'false',
+	                    'Zoom'          => $map->Zoom
+	                );
+	                Requirements::javascriptTemplate(
+	                    'googlemaps/javascript/GoogleMapMarker.js',
+	                    $vars
+	                );
+                }
+
+                // draw circle
+                if ($map->CircleRadius) {
+	                $vars = array(
+	                    'MapID'         => "google-map-dynamic-{$map->ID}",
+	                    'Radius'        => $map->CircleRadius,
+	                    'Color'         => ($map->CircleColor) ? $map->CircleColor : '#FF0000',
+	                    'Latitude'      => ($map->Latitude) ? $map->Latitude : 'false',
+	                    'Longitude'     => ($map->Longitude) ? $map->Longitude : 'false'
+	                );
+	                Requirements::javascriptTemplate(
+	                    'googlemaps/javascript/GoogleMapCircle.js',
+	                    $vars
+	                );
+                }
             }
         }
     }
