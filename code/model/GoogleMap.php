@@ -24,7 +24,7 @@ class GoogleMap extends DataObject
     );
     
     private static $casting = array(
-        'FullAddress'   => 'HTMLText',
+        'Content'   => 'HTMLText',
         'Location'      => 'Text',
         'Link'          => 'Text',
         'ImgURL'        => 'Text'
