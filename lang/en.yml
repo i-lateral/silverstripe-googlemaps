@@ -1,0 +1,7 @@
+en:
+  GoogleMap:
+    PLURALNAME: 'Google Maps'
+    SINGULARNAME: 'Google Map'
+  GoogleMaps:
+    AddGoogleMap: 'Add Google Map'
+    MapHeader: 'Generate your map'
