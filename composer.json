@@ -18,7 +18,7 @@
 		"silverstripe/framework": ">=3.1",
 		"silverstripe/cms": ">=3.1",
         "betterbrief/silverstripe-googlemapfield": "*",
-        "silverstripe-australia/gridfieldextensions": "1.1.0"
+        "silverstripe-australia/gridfieldextensions": "1.*"
 	},
 	"extra": {
 		"installer-name": "googlemaps"
