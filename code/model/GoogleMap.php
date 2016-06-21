@@ -18,7 +18,7 @@ class GoogleMap extends DataObject
         'Zoom'              => 'Int',
         'Sort'              => 'Int'
     );
-    
+
     private static $has_one = array(
         'Parent' => 'SiteTree'
     );
@@ -26,14 +26,14 @@ class GoogleMap extends DataObject
     private static $defaults = array(
         'Zoom' => 10
     );
-    
+
     private static $casting = array(
         'FullAddress'   => 'HTMLText',
         'Location'      => 'Text',
         'Link'          => 'Text',
         'ImgURL'        => 'Text'
     );
-    
+
     private static $summary_fields = array(
         'Title',
         'Address',
@@ -41,20 +41,19 @@ class GoogleMap extends DataObject
         'Latitude',
         'Longitude'
     );
-    
+
     private static $default_sort = 'Sort';
-    
+
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-        
+
         $fields->removeByname('ParentID');
         $fields->removeByname('Latitude');
         $fields->removeByname('Longitude');
         $fields->removeByname('Zoom');
-        $fields->removeByname('Content');
-		$fields->removeByname('Sort');
-        
+        $fields->removeByname('Sort');
+
         $fields->addFieldsToTab(
             "Root.Map",
             array(
@@ -68,18 +67,18 @@ class GoogleMap extends DataObject
                 ReadOnlyField::create("Zoom")
             )
         );
-        
+
         return $fields;
     }
-    
+
     private function url_safe_address()
     {
         $address  = str_replace('/n', ',', $this->Address);
         $address .= ',' . $this->PostCode;
-        
+
         return urlencode($address);
     }
-    
+
     /**
      * Get the location for this map, either address / postcode or lat / long
      *
@@ -92,14 +91,14 @@ class GoogleMap extends DataObject
         if ($this->Address && $this->PostCode) {
             $location = $this->url_safe_address();
         }
-        
+
         if ($this->Latitude && $this->Longitude) {
             $location = $this->Latitude . ',' . $this->Longitude;
         }
-        
+
         return $location;
     }
-    
+
     /**
      * Get a XML rendered version of the text address and post code
      *
@@ -109,7 +108,7 @@ class GoogleMap extends DataObject
     {
         return Convert::raw2xml($this->Address . '/n' . $this->PostCode);
     }
-    
+
     /**
      * Link to Google Maps for directions etc
      *
@@ -119,16 +118,16 @@ class GoogleMap extends DataObject
     {
         $link = false;
         $location = $this->getLocation();
-        
+
         if ($location) {
             $link  = 'http://maps.google.com/maps?q=';
             $link .= $location;
             $link .= '&amp;z='.$this->Zoom;
         }
-    
+
         return $link;
     }
-    
+
     /**
      * URL for static map image
      *
@@ -138,7 +137,7 @@ class GoogleMap extends DataObject
     {
         $link = false;
         $location = $this->getLocation();
-        
+
         if ($location) {
             $link = 'http://maps.googleapis.com/maps/api/staticmap?';
             $link .= 'center=' . $location;
@@ -148,25 +147,25 @@ class GoogleMap extends DataObject
             $link .= '&markers=color:red%7C' . $location;
             $link .= '&sensor=false';
         }
-        
+
         return $link;
     }
-    
+
     public function canCreate($member = null)
     {
         return $this->Parent()->canCreate();
     }
-    
+
     public function canView($member = null)
     {
         return $this->Parent()->canView();
     }
-    
+
     public function canEdit($member = null)
     {
         return $this->Parent()->canEdit();
     }
-    
+
     public function canDelete($member = null)
     {
         return $this->Parent()->canDelete();

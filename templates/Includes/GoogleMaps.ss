@@ -39,7 +39,7 @@
 				</div>
         	<% end_loop %>
     	<% end_if %>
-        
+
         <div class="clear google-maps-clear"></div>
     </div>
 <% end_if %>
