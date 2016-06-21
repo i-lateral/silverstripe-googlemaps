@@ -14,7 +14,7 @@ SilverStripe 3.1 or greater.
 
 ## Notes
 
-Heavily re-written version of [GoogleMapsBasic](https://github.com/sunnysideup/silverstripe-googlemapbasic) module. 
+Heavily re-written version of [GoogleMapsBasic](https://github.com/sunnysideup/silverstripe-googlemapbasic) module.
 
 This re-write makes use of the V3 engine for Google Maps API, plus it also
 allows for multiple maps to be embeded on a page that can be acessed in the same
@@ -23,7 +23,7 @@ manner as any other object set.
 Now you can add your account API Key in your SiteConfig. If you do not add
 a key, maps will still work, but with a limited number of requests.
 
-This re-write also makes use of the [gmap3](http://gmap3.net/) jquery plugin. 
+This re-write also makes use of the [gmap3](http://gmap3.net/) jquery plugin.
 
 ## Installation Instructions
 
