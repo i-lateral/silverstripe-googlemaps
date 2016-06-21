@@ -22,6 +22,10 @@ class GoogleMap extends DataObject
     private static $has_one = array(
         'Parent' => 'SiteTree'
     );
+
+    private static $defaults = array(
+        'Zoom' => 10
+    );
     
     private static $casting = array(
         'FullAddress'   => 'HTMLText',
