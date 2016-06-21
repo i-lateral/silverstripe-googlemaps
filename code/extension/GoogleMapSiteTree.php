@@ -14,7 +14,9 @@ class GoogleMapSiteTree extends DataExtension
 
     public static $db = array(
         'ShowMap'   => 'Boolean',
-        'StaticMap' => 'Boolean'
+        'StaticMap' => 'Boolean',
+        'OnlyOneMap' => 'Boolean',
+        'AutoFit' => 'Boolean'
     );
     
     public static $has_many = array(
@@ -51,7 +53,9 @@ class GoogleMapSiteTree extends DataExtension
     {
         $maps_group = FieldGroup::create(
             CheckboxField::create("ShowMap", "Enable maps on this page?"),
-            CheckboxField::create("StaticMap", "Render maps as images?")
+            CheckboxField::create("StaticMap", "Render maps as images?"),
+            CheckboxField::create("OnlyOneMap", "Show only one map?"),
+            CheckboxField::create("AutoFit", "Set autofit?")
         )->setTitle('Google Maps');
     
         $fields->addFieldToTab("Root.Settings", $maps_group);

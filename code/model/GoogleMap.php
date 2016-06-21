@@ -48,17 +48,8 @@ class GoogleMap extends DataObject
         $fields->removeByname('Latitude');
         $fields->removeByname('Longitude');
         $fields->removeByname('Zoom');
-        $fields->removeByname('Sort');
-        
-        $fields->addFieldToTab(
-            "Root.Main",
-            HeaderField::create(
-                "InfoHeader",
-                _t("GoogleMaps.InfoHeader", "Information about this location")
-            ),
-            "Title"
-        );
-        
+        $fields->removeByname('Content');
+		$fields->removeByname('Sort');
         
         $fields->addFieldsToTab(
             "Root.Map",
@@ -128,7 +119,7 @@ class GoogleMap extends DataObject
         if ($location) {
             $link  = 'http://maps.google.com/maps?q=';
             $link .= $location;
-            $link .= '&amp;z='.$this->ZoomLevel;
+            $link .= '&amp;z='.$this->Zoom;
         }
     
         return $link;
@@ -147,7 +138,7 @@ class GoogleMap extends DataObject
         if ($location) {
             $link = 'http://maps.googleapis.com/maps/api/staticmap?';
             $link .= 'center=' . $location;
-            $link .= '&zoom=' . $this->ZoomLevel;
+            $link .= '&zoom=' . $this->Zoom;
             $link .= '&size=' . $width . 'x' . $height . '';
             $link .= '&maptype=roadmap';
             $link .= '&markers=color:red%7C' . $location;
