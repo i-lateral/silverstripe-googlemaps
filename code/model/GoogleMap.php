@@ -120,7 +120,7 @@ class GoogleMap extends DataObject
         $location = $this->getLocation();
 
         if ($location) {
-            $link  = 'http://maps.google.com/maps?q=';
+            $link  = 'https://maps.google.com/maps?q=';
             $link .= $location;
             $link .= '&amp;z='.$this->Zoom;
         }
@@ -139,7 +139,7 @@ class GoogleMap extends DataObject
         $location = $this->getLocation();
 
         if ($location) {
-            $link = 'http://maps.googleapis.com/maps/api/staticmap?';
+            $link = 'https://maps.googleapis.com/maps/api/staticmap?';
             $link .= 'center=' . $location;
             $link .= '&zoom=' . $this->Zoom;
             $link .= '&size=' . $width . 'x' . $height . '';

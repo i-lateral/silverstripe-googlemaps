@@ -19,7 +19,7 @@ class GoogleMapController extends Extension
             $key = ($config->APIKey) ? "&key={$config->APIKey}" : '';
 
             Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
-            Requirements::javascript("http://maps.googleapis.com/maps/api/js?sensor=false" . $key);
+            Requirements::javascript("https://maps.googleapis.com/maps/api/js?sensor=false" . $key);
             Requirements::javascript('googlemaps/javascript/gmap3.min.js');
         }
     }
