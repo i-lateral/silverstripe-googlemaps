@@ -21,9 +21,9 @@ class GoogleMapController extends Extension
 
 			// load requirements
             $config = SiteConfig::current_site_config();
-            $key = ($config->APIKey) ? "&key={$config->APIKey}" : '';
+            $key = ($config->APIKey) ? "?key={$config->APIKey}" : '';
             Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
-            Requirements::javascript("https://maps.googleapis.com/maps/api/js?sensor=false" . $key);
+            Requirements::javascript("https://maps.googleapis.com/maps/api/js" . $key);
             Requirements::javascript('googlemaps/javascript/gmap3.min.js');
 
 			// load maps
