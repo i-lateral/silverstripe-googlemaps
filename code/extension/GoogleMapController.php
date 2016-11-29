@@ -7,31 +7,27 @@
 class GoogleMapController extends Extension
 {
 
-    public function onBeforeInit()
-	{
-        Requirements::themedCSS('GoogleMaps', 'googlemaps');
-        if(
-            $this->owner->Maps()->exists()
-            && $this->owner->ShowMap
-            && !$this->owner->StaticMap
-        ) {
-            $config = SiteConfig::current_site_config();
-            $key = ($config->APIKey) ? "&key={$config->APIKey}" : '';
-
-            Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
-            Requirements::javascript("http://maps.googleapis.com/maps/api/js?sensor=false" . $key);
-            Requirements::javascript('googlemaps/javascript/gmap3.min.js');
-        }
-    }
-
     public function onAfterInit()
 	{
+		// load static requirements
+        Requirements::themedCSS('GoogleMaps', 'googlemaps');
+		
+		// load dynamic maps and requirements
         if (
             $this->owner->Maps()->exists()
             && $this->owner->ShowMap
             && !$this->owner->StaticMap
         ) {
-        	if ($this->owner->OnlyOneMap == false) {
+
+			// load requirements
+            $config = SiteConfig::current_site_config();
+            $key = ($config->APIKey) ? "?key={$config->APIKey}" : '';
+            Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
+            Requirements::javascript("https://maps.googleapis.com/maps/api/js" . $key);
+            Requirements::javascript('googlemaps/javascript/gmap3.min.js');
+
+			// load maps
+			if ($this->owner->OnlyOneMap == false) {
 				foreach($this->owner->Maps() as $map) {
 	                $vars = array(
 	                    'MapID'         => "google-map-dynamic-{$map->ID}",
