@@ -69,22 +69,22 @@ class GoogleMapController extends Extension
 					$markerValue = "{";
 
 					if ($address) {
-						$markerValue .= ' address:"'.$address.'",';
+						$markerValue .= ' address:"'.$address.'"';
 					} else {
 						$markerValue .= " position: [";
 						$markerValue .= ($map->Latitude) ? $map->Latitude : 'false';
 						$markerValue .= ",";
 						$markerValue .= ($map->Longitude) ? $map->Longitude : 'false';
-						$markerValue .= "],";
+						$markerValue .= "]";
 					}
 
 	                $markerValue .= "}";
 					$markers[] = $markerValue;
 	            }
 
-				$js = 'jQuery(document).ready(function() {
-					jQuery(".'.$mapID.'").gmap3({
-						center: ['.$centerLatitude.','.$centerLongitude.'],
+				$js = '(function($){$(document).ready(function() {
+				    $(".'.$mapID.'").gmap3({
+					    center: ['.$centerLatitude.','.$centerLongitude.'],
 						zoom: '.$zoom.'
 					})';
 
@@ -96,7 +96,7 @@ class GoogleMapController extends Extension
 					$js .= ";";
 				}
 
-				$js .= "});";
+				$js .= "});}(jQuery));";
 				
 				Requirements::customScript($js);		
 			}
