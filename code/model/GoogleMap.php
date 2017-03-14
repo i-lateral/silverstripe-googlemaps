@@ -61,12 +61,18 @@ class GoogleMap extends DataObject
                     "MapHeader",
                     _t("GoogleMaps.MapHeader", "Generate your map")
                 ),
-                GoogleMapField::create($this, "Find the location"),
+                $mapField = GoogleMapField::create($this, "Find the location"),
                 ReadOnlyField::create("Latitude"),
                 ReadOnlyField::create("Longitude"),
                 ReadOnlyField::create("Zoom")
             )
         );
+        
+        // set API key if available
+        $config = SiteConfig::current_site_config();
+        if ($config->APIKey) {
+            $mapField->setOption('api_key', $config->APIKey);
+        }
 
         return $fields;
     }
