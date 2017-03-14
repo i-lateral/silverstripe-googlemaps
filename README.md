@@ -13,14 +13,6 @@ Mo: morven [@] ilateral.co.uk
 SilverStripe 3.1 or greater.
 [SortableGridField](https://github.com/UndefinedOffset/SortableGridField)
 
-## Installation Instructions
-
-The prefered method of instalation is composer:
-
-```
-composer require i-lateral/silverstripe-googlemaps
-```
-
-Alternativley download and add module to the folder "googlemaps" in your SilverStripe root directory.
-
 ## Further Docs
+
+Further documentation is available [in docs](docs/en/index.md)
