@@ -1,0 +1,12 @@
+---
+Name: googlemaps
+---
+SiteConfig:
+  extensions:
+    - GoogleMapSiteConfig
+SiteTree:
+  extensions:
+    - GoogleMapSiteTree
+ContentController:
+  extensions:
+    - GoogleMapController
